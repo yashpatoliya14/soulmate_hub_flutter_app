@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:matrimony_flutter/Authentication/user_controllers.dart';
-import 'package:matrimony_flutter/Authentication/user_model.dart';
+import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
+import 'package:matrimony_flutter/Home/user_list/user_model.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;

@@ -11,7 +11,7 @@ export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:google_sign_in/google_sign_in.dart';
 export 'package:iconsax/iconsax.dart';
-export 'package:matrimony_flutter/Home/app_bar.dart';
+export 'package:matrimony_flutter/Home/appbar/app_bar.dart';
 export 'package:matrimony_flutter/Userform/EditForm/form_methods.dart';
 export 'package:matrimony_flutter/Userform/EditForm/form_utils.dart';
 export 'package:matrimony_flutter/Userform/Submit_Pages/forgot_password.dart';

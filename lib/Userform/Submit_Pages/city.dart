@@ -1,5 +1,5 @@
-import 'package:matrimony_flutter/Authentication/user_controllers.dart';
-import 'package:matrimony_flutter/Authentication/user_model.dart';
+import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
+import 'package:matrimony_flutter/Home/user_list/user_model.dart';
 import 'package:matrimony_flutter/Userform/Submit_Pages/Hobbies.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 

@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:matrimony_flutter/Home/about_page.dart';
-import 'package:matrimony_flutter/Home/drawer.dart';
+import 'package:matrimony_flutter/Home/about/about_page.dart';
+import 'package:matrimony_flutter/Home/profile/drawer.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
-import 'package:matrimony_flutter/Home/favoriteList.dart';
+import 'package:matrimony_flutter/Home/favorite_list/favoriteList.dart';
 import 'package:matrimony_flutter/Userform/EditForm/user_form.dart';
-import 'package:matrimony_flutter/Home/user_list.dart';
+import 'package:matrimony_flutter/Home/user_list/user_list.dart';
 import 'package:animations/animations.dart';
+
 class Home extends StatefulWidget {
   final int index;
 
@@ -19,21 +20,18 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final User? user = Auth().currentUser;
 
- 
-
   @override
   void initState() {
     super.initState();
     activeIndex = widget.index;
   }
 
-  
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       UserList(search: isSearchBar),
       Favoritelist(),
-      AboutPage()
+      AboutPage(),
     ];
     void onClickSearchBar() {
       setState(() {
@@ -60,14 +58,11 @@ class _HomeState extends State<Home> {
               icon: const Icon(Iconsax.search_normal, color: Colors.white),
               iconSize: 25,
             ),
-            
           ],
         ),
       ),
 
-      drawer: SafeArea(
-        child: getDrawer()
-      ),
+      drawer: SafeArea(child: GetDrawer()),
 
       body: PageTransitionSwitcher(
         duration: const Duration(milliseconds: 400),
@@ -95,7 +90,10 @@ class _HomeState extends State<Home> {
         items: [
           BottomNavigationBarItem(icon: Icon(Iconsax.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Iconsax.heart), label: 'Favorite'),
-          BottomNavigationBarItem(icon: Icon(Iconsax.info_circle), label: 'About'),
+          BottomNavigationBarItem(
+            icon: Icon(Iconsax.info_circle),
+            label: 'About',
+          ),
         ],
       ),
     );

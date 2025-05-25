@@ -1,131 +1,96 @@
-import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:matrimony_flutter/Authentication/user_controllers.dart';
-import 'package:matrimony_flutter/Authentication/user_model.dart';
+import 'package:matrimony_flutter/Home/favorite_list/favoritelist_provider.dart';
+import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
+import 'package:matrimony_flutter/Home/user_list/user_model.dart';
 import 'package:matrimony_flutter/Home/loader.dart';
 import 'package:matrimony_flutter/User_Detail/user_detail.dart';
-import 'package:matrimony_flutter/Authentication/standard.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class Favoritelist extends StatefulWidget {
   const Favoritelist({super.key});
 
   @override
-  State<Favoritelist> createState() => _UserListState();
+  State<Favoritelist> createState() => _FavoritelistState();
 }
 
-class _UserListState extends State<Favoritelist> {
-  Future<List<Map<String, dynamic>>>? _userDataFuture;
-  List<String> favList =[];
-  @override
-  void initState() {
-    super.initState();
-    _userDataFuture = _getUserData();
+class _FavoritelistState extends State<Favoritelist> {
+  bool _loading = false;
+
+  _fetchFavorites([refresh=false]) async {
+    setState(() {
+      _loading = true;
+    });
+    await Provider.of<FavoritelistProvider>(context,listen: false).getUserData(refresh);
+    setState(() {
+      _loading = false;
+    });
   }
 
-  Future<List<Map<String, dynamic>>> _getUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userOperations = UserOperations();
-
-    final String? currentEmail = prefs.getString(EMAIL);
-    if (currentEmail == null) return [];
-
-    List<Map<String, dynamic>> userList = await userOperations.getAllUsers();
-    final userData = await userOperations.getUserByEmail(email: currentEmail);
-    final List<String> favoriteListEmail = List<String>.from(
-      userData?[FAVORITELIST] ?? [],
-    );
-
-    List<Map<String, dynamic>> favoriteList = [];
-    for (var user in userList) {
-      if (favoriteListEmail.contains(user[EMAIL])) {
-        favoriteList.add(user);
-      }
-    }
-    favList = favoriteListEmail;
-    return favoriteList;
-  }
 
   Future<void> onLike(String selectedEmail) async {
-    SharedPreferences preferences = Get.find<SharedPreferences>();
     UserOperations userOperations = UserOperations();
+    final provider = Provider.of<FavoritelistProvider>(context,listen: false);
+    final currentEmail = Auth().currentUser!.email.toString();
+    if(currentEmail==null){
+      print(":::::::User email not found !! :::::::");
+      return;
+    }
 
-    Map<String, dynamic>? person = await userOperations.getUserByEmail(
-      email: preferences.getString(EMAIL).toString(),
-    );
-
-    if (person != null) {
-      List<String> favoriteListEmailByUser = List<String>.from(
-        person[FAVORITELIST] ?? [],
-      );
-
-      if (favoriteListEmailByUser.contains(selectedEmail)) {
-        favoriteListEmailByUser.remove(selectedEmail);
-        favList.remove(selectedEmail);
+      if (provider.favList.contains(selectedEmail)) {
+        provider.favList.remove(selectedEmail);
+        provider.favoriteList.removeWhere((favorite)=>favorite[EMAIL] == selectedEmail);
+        setState(() {
+          
+        });
       } else {
-        favoriteListEmailByUser.add(selectedEmail);
-        favList.add(selectedEmail);
-      
+        provider.favList.add(selectedEmail);            
       }
 
-      UserModel updatedUser = UserModel(FAVORITELIST: favoriteListEmailByUser);
+      UserModel updatedUser = UserModel(FAVORITELIST: provider.favList);
 
       await userOperations.updateUserByEmail(
         updatedData: updatedUser.toJson(),
-        email: preferences.getString(EMAIL).toString(),
+        email: currentEmail,
       );
-
-      // Refresh the data
-      setState(() {
-        _userDataFuture = _getUserData();
-      });
-    }
   }
 
   @override
+  void initState() {
+    super.initState();
+     _fetchFavorites();
+  }
+  @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<FavoritelistProvider>(context);
+    final favoriteList = provider.favoriteList;
+    if(favoriteList.isEmpty){
+      return Center(
+        child: Text("No favorite user found",style: GoogleFonts.nunito(),),
+      );
+    }
     return Column(
       children: [
         const Padding(padding: EdgeInsets.all(8.0)),
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
-              setState(() {
-                 _userDataFuture = _getUserData();
-              });
-              await _userDataFuture;
+              provider.favoriteList.clear();
+              provider.favList.clear();
+              _fetchFavorites(true);              
             },
-            child: FutureBuilder<List<Map<String, dynamic>>>(
-              future: _userDataFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const LoadingWidget();
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(
-                    child: Text('No Favorite User', style: GoogleFonts.aBeeZee()),
-                  );
-                } else {
-                  final favoriteList = snapshot.data!;
-                  return ListView.builder(
+            child: !_loading ? ListView.builder(
                     itemCount: favoriteList.length,
                     itemBuilder: (context, index) {
-                      return getListItem(favoriteList[index], index);
+                      return getListItem(favoriteList[index], index,provider.favList);
                     },
-                  );
-                }
-              },
+                  ) : LoadingWidget()
             ),
           ),
-        ),
       ],
     );
   }
 
-  Widget getListItem(Map<String, dynamic> user, int index) {
+  Widget getListItem(Map<String, dynamic> user, int index, List<String> favList) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: LayoutBuilder(

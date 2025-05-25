@@ -1,6 +1,6 @@
 import 'package:matrimony_flutter/AnimatedLoader.dart';
 import 'package:matrimony_flutter/Authentication/complete_profile_detail_tree.dart';
-import 'package:matrimony_flutter/Authentication/user_controllers.dart';
+import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 import 'package:matrimony_flutter/launch_page.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:matrimony_flutter/AnimatedLoader.dart';
-import 'package:matrimony_flutter/Authentication/user_controllers.dart';
+import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 import 'package:matrimony_flutter/Home/home.dart';
 import 'package:matrimony_flutter/Userform/Submit_Pages/Hobbies.dart';
 import 'package:matrimony_flutter/Userform/Submit_Pages/city.dart';

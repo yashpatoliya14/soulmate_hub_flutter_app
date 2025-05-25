@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:matrimony_flutter/Home/app_bar.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
-
-
-
 
 class AboutPage extends StatefulWidget  {
   const AboutPage({super.key});

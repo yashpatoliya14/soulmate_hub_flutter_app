@@ -1,27 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:matrimony_flutter/Authentication/user_controllers.dart';
-import 'package:matrimony_flutter/Authentication/user_model.dart';
+import 'package:matrimony_flutter/Home/favorite_list/favoritelist_provider.dart';
+import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
+import 'package:matrimony_flutter/Home/user_list/user_model.dart';
 import 'package:matrimony_flutter/Chat/chat_screen.dart';
-import 'package:matrimony_flutter/Home/favoriteList.dart';
+import 'package:matrimony_flutter/Home/favorite_list/favoriteList.dart';
+import 'package:matrimony_flutter/Home/user_list/userlist_provider.dart';
 import 'package:matrimony_flutter/User_Detail/user_detail.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
+import 'package:provider/provider.dart';
 
-import 'search_bar.dart';
+import '../appbar/search_bar.dart';
 
 class GetListItem extends StatefulWidget {
   final int index;
-  final List<Map<String, dynamic>> userList;
   final List<Map<String, dynamic>> searchList;
-  final List<String> favList;
 
-  const GetListItem({
-    Key? key,
-    required this.index,
-    required this.userList,
-    required this.searchList,
-    required this.favList,
-  }) : super(key: key);
+  const GetListItem({Key? key, required this.index, required this.searchList})
+    : super(key: key);
 
   //methods
 
@@ -33,82 +29,51 @@ class _GetListItemState extends State<GetListItem> {
   @override
   Widget build(BuildContext context) {
     final int index = widget.index;
-    final List<Map<String, dynamic>> userList = widget.userList;
+    final provider = Provider.of<UserListProvider>(context);
+    final List<Map<String, dynamic>> userList = provider.userList;
     final List<Map<String, dynamic>> searchList = widget.searchList;
-    final List<String> favList = widget.favList;
     final currentList = searchController.text.isEmpty ? userList : searchList;
+    final providerFavoriteList = Provider.of<FavoritelistProvider>(
+      context,
+      listen: false,
+    );
 
+    bool isSearchOpen = searchController.text.isNotEmpty;
     void onLike() async {
-      if (searchController.text.isEmpty) {
-        SharedPreferences preferences = Get.find<SharedPreferences>();
-        UserOperations userOperations = UserOperations();
+      SharedPreferences preferences = Get.find<SharedPreferences>();
+      UserOperations userOperations = UserOperations();
 
-        // Get logged-in user data
-        Map<String, dynamic>? person = await userOperations.getUserByEmail(
-          email: preferences.getString("email").toString(),
-        );
+      String selectedEmail = userList[index][EMAIL];
 
-        if (person != null) {
-          List<String> favoriteList = List<String>.from(
-            person[FAVORITELIST] ?? [],
+      // Toggle logic
+      if (providerFavoriteList.favList.contains(
+        isSearchOpen ? searchList[index][EMAIL] : userList[index][EMAIL],
+      )) {
+        setState(() {
+          providerFavoriteList.favoriteList.removeWhere(
+            (favorite) => favorite[EMAIL] == selectedEmail,
           );
-          String selectedEmail = userList[index][EMAIL];
-
-          // Toggle logic
-          if (favList.contains(userList[index][EMAIL])) {
-            favoriteList.remove(selectedEmail);
-            favList.remove(selectedEmail);
-            setState(() {});
-          } else {
-            favoriteList.add(selectedEmail);
-            favList.add(selectedEmail);
-            setState(() {});
-          }
-
-          UserModel updatedUser = UserModel(FAVORITELIST: favoriteList);
-
-          await userOperations.updateUserByEmail(
-            updatedData: updatedUser.toJson(),
-            email: preferences.getString("email").toString(),
-          );
-        }
+          providerFavoriteList.favList.remove(selectedEmail);
+        });
       } else {
-        SharedPreferences preferences = Get.find<SharedPreferences>();
-        UserOperations userOperations = UserOperations();
-
-        // Get logged-in user data
-        Map<String, dynamic>? person = await userOperations.getUserByEmail(
-          email: preferences.getString("email").toString(),
-        );
-
-        if (person != null) {
-          List<String> favoriteList = List<String>.from(
-            person[FAVORITELIST] ?? [],
+        setState(() {
+          providerFavoriteList.favoriteList.add(
+            provider.userList.singleWhere(
+              (user) => user[EMAIL] == selectedEmail,
+            ),
           );
-          String selectedEmail = searchList[index][EMAIL];
-
-          // Toggle logic
-          if (favList.contains(searchList[index][EMAIL])) {
-            favoriteList.remove(selectedEmail);
-            favList.remove(selectedEmail);
-            setState(() {});
-          } else {
-            favoriteList.add(selectedEmail);
-            favList.add(selectedEmail);
-            setState(() {});
-          }
-
-          UserModel updatedUser = UserModel(
-            ISFAVORITE: searchList[index][ISFAVORITE],
-            FAVORITELIST: favoriteList,
-          );
-
-          await userOperations.updateUserByEmail(
-            updatedData: updatedUser.toJson(),
-            email: preferences.getString(EMAIL).toString(),
-          );
-        }
+          providerFavoriteList.favList.add(selectedEmail);
+        });
       }
+
+      UserModel updatedUser = UserModel(
+        FAVORITELIST: providerFavoriteList.favList,
+      );
+
+      await userOperations.updateUserByEmail(
+        updatedData: updatedUser.toJson(),
+        email: Auth().currentUser!.email.toString(),
+      );
     }
 
     return Padding(
@@ -215,29 +180,27 @@ class _GetListItemState extends State<GetListItem> {
                           TextButton.icon(
                             onPressed: onLike,
                             icon: Icon(
-                              (searchController.text.isEmpty
-                                      ? favList.contains(userList[index][EMAIL])
-                                      : favList.contains(
-                                        searchList[index][EMAIL],
-                                      ))
+                              (providerFavoriteList.favList.contains(
+                                    isSearchOpen
+                                        ? searchList[index][EMAIL]
+                                        : userList[index][EMAIL],
+                                  ))
                                   ? Iconsax.heart5
                                   : Iconsax.heart,
                               color:
-                                  (searchController.text.isEmpty
-                                          ? favList.contains(
-                                            userList[index][EMAIL],
-                                          )
-                                          : favList.contains(
-                                            searchList[index][EMAIL],
-                                          ))
+                                  (providerFavoriteList.favList.contains(
+                                        isSearchOpen
+                                            ? searchList[index][EMAIL]
+                                            : userList[index][EMAIL],
+                                      ))
                                       ? Colors.red
                                       : Colors.deepOrange,
                             ),
                             label: Text(
-                              (searchController.text.isEmpty
-                                      ? favList.contains(userList[index][EMAIL])
-                                      : favList.contains(
-                                        searchList[index][EMAIL],
+                              (providerFavoriteList.favList.contains(
+                                        isSearchOpen
+                                            ? searchList[index][EMAIL]
+                                            : userList[index][EMAIL],
                                       ))
                                   ? "Liked"
                                   : "Like",
@@ -294,6 +257,5 @@ class _GetListItemState extends State<GetListItem> {
         },
       ),
     );
-  
   }
 }

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:matrimony_flutter/Authentication/widget_tree.dart';
-import 'package:matrimony_flutter/Home/drawer_provider.dart';
-import 'package:matrimony_flutter/Home/user_list.dart';
-import 'package:matrimony_flutter/Home/userlist_provider.dart';
+import 'package:matrimony_flutter/Home/favorite_list/favoriteList.dart';
+import 'package:matrimony_flutter/Home/favorite_list/favoritelist_provider.dart';
+import 'package:matrimony_flutter/Home/profile/drawer_provider.dart';
+import 'package:matrimony_flutter/Home/user_list/user_list.dart';
+import 'package:matrimony_flutter/Home/user_list/userlist_provider.dart';
 import 'package:matrimony_flutter/Network_wrapper.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 import 'package:matrimony_flutter/launch_page.dart';
@@ -22,6 +24,7 @@ Future<void> main() async {
           providers: [
             ChangeNotifierProvider(create: (_)=>UserListProvider()),
             ChangeNotifierProvider(create: (_)=>DrawerProvider()),
+            ChangeNotifierProvider(create: (_)=>FavoritelistProvider()),
           ],
           child: const MyApp()
       )

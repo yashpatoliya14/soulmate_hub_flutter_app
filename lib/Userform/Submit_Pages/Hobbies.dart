@@ -1,6 +1,6 @@
 import 'package:matrimony_flutter/Authentication/complete_profile_detail_tree.dart';
-import 'package:matrimony_flutter/Authentication/user_controllers.dart';
-import 'package:matrimony_flutter/Authentication/user_model.dart';
+import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
+import 'package:matrimony_flutter/Home/user_list/user_model.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 
 class Hobbies extends StatefulWidget {

@@ -4,7 +4,14 @@ import 'package:matrimony_flutter/Utils/importFiles.dart';
 int activeIndex = 0;
 bool isSearchBar = false;
 
-Widget getAppBar(context, {onClickSearchBar,name,actionsList,isDrawer=true}){
+Widget getAppBar(
+  BuildContext context, {
+  VoidCallback? onClickSearchBar,
+  required String name,
+  List<Widget>? actionsList,
+  bool isDrawer = true,
+})
+{
   final List<Color> appBarGradientColors = [Colors.purple.shade400, Colors.purple];
 
   return AppBar(
