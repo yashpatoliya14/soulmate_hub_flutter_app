@@ -2,7 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:matrimony_flutter/Authentication/widget_tree.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 
+//________________________________________________
+//this widget work for both sign in and signup
+//________________________________________________
+
 class Email extends StatefulWidget {
+  //if sign in 
   bool isSignIn;
   Email({super.key, required this.isSignIn});
 
@@ -16,6 +21,8 @@ class _EmailState extends State<Email> {
   bool? isUserExist;
 
   //methods
+
+  
   Future<void> signup() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();

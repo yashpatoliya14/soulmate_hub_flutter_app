@@ -1,9 +1,7 @@
-import 'dart:convert';
-import 'package:matrimony_flutter/Authentication/auth.dart';
+
 import 'package:matrimony_flutter/Authentication/widget_tree.dart';
-import 'package:matrimony_flutter/Update/Submit_Pages/email.dart';
+import 'package:matrimony_flutter/Authentication/email.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
-import 'package:http/http.dart' as http;
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -12,33 +10,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool isLogin = true;
-  bool isNewUser = false;
-  final TextEditingController _controllerEmail = TextEditingController();
-  final TextEditingController _controllerPassword = TextEditingController();
-
-  Future<void> signUp() async {
-    try {
-      await Auth().signUp(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
-      );
-    } on FirebaseException catch (e) {
-      String err = '';
-      switch (e.code) {
-        case 'invalid-credential':
-          err = 'Invalid email or password';
-          break;
-        default:
-          err = "An unknown error occurred. Please try again.";
-      }
-      Get.snackbar("Error", err);
-    } catch (e) {
-      print(":::::::${e.toString()}::::::");
-    }
-  }
-
-  final GlobalKey<FormState> _formkey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
               //Sign in / up to continue
               Text(
-                "${isNewUser ? "Sign Up" : "Sign In"} to continue",
+                "Sign In to continue",
                 style: GoogleFonts.nunito(
                   fontWeight: FontWeight.w700,
                   fontSize: 20,

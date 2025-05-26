@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 import 'package:matrimony_flutter/Home/user_list/user_model.dart';
-import 'package:matrimony_flutter/Authentication/widget_tree.dart';
 import 'package:matrimony_flutter/Update/Submit_Pages/name_profilephoto.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
-import 'package:matrimony_flutter/launch_page.dart';
 
 class VerifyEmailAddress extends StatefulWidget {
   const VerifyEmailAddress({super.key});
@@ -16,7 +14,6 @@ class VerifyEmailAddress extends StatefulWidget {
 class _VerifyEmailAddressState extends State<VerifyEmailAddress> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     sendForVerifyEmail();

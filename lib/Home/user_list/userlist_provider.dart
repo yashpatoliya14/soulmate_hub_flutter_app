@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:matrimony_flutter/Authentication/auth.dart';
-import 'package:matrimony_flutter/Authentication/standard.dart';
+import 'package:matrimony_flutter/standard.dart';
 import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 
 class UserListProvider with ChangeNotifier{

@@ -1,4 +1,4 @@
-import 'package:matrimony_flutter/Update/Submit_Pages/email.dart';
+import 'package:matrimony_flutter/Authentication/email.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 import 'package:matrimony_flutter/Update/Submit_Pages/name_profilephoto.dart';
 

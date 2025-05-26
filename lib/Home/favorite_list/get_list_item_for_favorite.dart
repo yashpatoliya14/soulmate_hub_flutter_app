@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrimony_flutter/Authentication/auth.dart';
-import 'package:matrimony_flutter/Authentication/standard.dart';
+import 'package:matrimony_flutter/standard.dart';
 import 'package:matrimony_flutter/Home/favorite_list/favoritelist_provider.dart';
 import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 import 'package:matrimony_flutter/Home/user_list/user_model.dart';

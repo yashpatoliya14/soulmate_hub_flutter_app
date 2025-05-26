@@ -1,15 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:matrimony_flutter/Authentication/widget_tree.dart';
-import 'package:matrimony_flutter/Home/favorite_list/favoriteList.dart';
 import 'package:matrimony_flutter/Home/favorite_list/favoritelist_provider.dart';
 import 'package:matrimony_flutter/Home/profile/drawer_provider.dart';
-import 'package:matrimony_flutter/Home/user_list/user_list.dart';
 import 'package:matrimony_flutter/Home/user_list/userlist_provider.dart';
-import 'package:matrimony_flutter/Network_wrapper.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
-import 'package:matrimony_flutter/launch_page.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
@@ -60,7 +54,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         splashColor: Colors.transparent,
       ),
-      home: NetworkWrapper(child: WidgetTree()),
+      home: WidgetTree(),
     );
   }
 }
