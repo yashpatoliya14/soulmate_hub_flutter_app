@@ -14,21 +14,28 @@ class FavoritelistProvider with ChangeNotifier {
     final String? currentEmail = Auth().currentUser!.email;
     if (currentEmail == null) return;
 
+    //get all users
     List<Map<String, dynamic>> userList = await userOperations.getAllUsers();
 
+    //get user by email
     final userData = await userOperations.getUserByEmail(email: currentEmail);
     
-    final List<String> favoriteListEmail = List<String>.from(
+    //favorite emails
+     favList = List<String>.from(
       userData?[FAVORITELIST] ?? [],
     );
 
+    //add favorite user data into favorite list 
     for (var user in userList) {
-      if (favoriteListEmail.contains(user[EMAIL])) {
+      if (favList.contains(user[EMAIL])) {
         favoriteList.add(user);
       }
     }
-    favList = favoriteListEmail;
     fetched = true;
+  }
+
+  notifytoAllWidgets(){
+    notifyListeners();
   }
 
 }

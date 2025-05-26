@@ -3,7 +3,7 @@ import 'package:matrimony_flutter/Home/about/about_page.dart';
 import 'package:matrimony_flutter/Home/profile/drawer.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 import 'package:matrimony_flutter/Home/favorite_list/favoriteList.dart';
-import 'package:matrimony_flutter/Userform/EditForm/user_form.dart';
+import 'package:matrimony_flutter/Update/EditForm/user_form.dart';
 import 'package:matrimony_flutter/Home/user_list/user_list.dart';
 import 'package:animations/animations.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:matrimony_flutter/Home/profile/drawer_provider.dart';
 import 'package:matrimony_flutter/Home/profile/profile_image.dart';
 import 'package:matrimony_flutter/Home/profile/profile_list_tile.dart';
-import 'package:matrimony_flutter/Userform/EditForm/user_form.dart';
+import 'package:matrimony_flutter/Update/EditForm/user_form.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 import 'package:matrimony_flutter/launch_page.dart';
 import 'package:provider/provider.dart';

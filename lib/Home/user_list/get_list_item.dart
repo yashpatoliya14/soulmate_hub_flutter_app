@@ -1,15 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:matrimony_flutter/Home/favorite_list/favoritelist_provider.dart';
 import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 import 'package:matrimony_flutter/Home/user_list/user_model.dart';
 import 'package:matrimony_flutter/Chat/chat_screen.dart';
-import 'package:matrimony_flutter/Home/favorite_list/favoriteList.dart';
 import 'package:matrimony_flutter/Home/user_list/userlist_provider.dart';
 import 'package:matrimony_flutter/User_Detail/user_detail.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 import 'package:provider/provider.dart';
-
 import '../appbar/search_bar.dart';
 
 class GetListItem extends StatefulWidget {
@@ -28,6 +25,7 @@ class GetListItem extends StatefulWidget {
 class _GetListItemState extends State<GetListItem> {
   @override
   Widget build(BuildContext context) {
+    // variables
     final int index = widget.index;
     final provider = Provider.of<UserListProvider>(context);
     final List<Map<String, dynamic>> userList = provider.userList;
@@ -37,12 +35,13 @@ class _GetListItemState extends State<GetListItem> {
       context,
       listen: false,
     );
-
     bool isSearchOpen = searchController.text.isNotEmpty;
-    void onLike() async {
-      SharedPreferences preferences = Get.find<SharedPreferences>();
-      UserOperations userOperations = UserOperations();
+    //_______________________________________
+    //on like button logic
+    //______________________________________
 
+    void onLike() async {
+      UserOperations userOperations = UserOperations();
       String selectedEmail = userList[index][EMAIL];
 
       // Toggle logic

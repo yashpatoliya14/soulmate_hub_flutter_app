@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:matrimony_flutter/AnimatedLoader.dart';
 import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 import 'package:matrimony_flutter/Home/home.dart';
-import 'package:matrimony_flutter/Userform/Submit_Pages/Hobbies.dart';
-import 'package:matrimony_flutter/Userform/Submit_Pages/city.dart';
-import 'package:matrimony_flutter/Userform/Submit_Pages/gender.dart';
-import 'package:matrimony_flutter/Userform/Submit_Pages/name_profilephoto.dart';
+import 'package:matrimony_flutter/Update/Submit_Pages/Hobbies.dart';
+import 'package:matrimony_flutter/Update/Submit_Pages/city.dart';
+import 'package:matrimony_flutter/Update/Submit_Pages/gender.dart';
+import 'package:matrimony_flutter/Update/Submit_Pages/name_profilephoto.dart';
 import 'package:matrimony_flutter/launch_page.dart';
 
 class CompleteProfileDetailTree extends StatefulWidget {

@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 import 'package:matrimony_flutter/Home/user_list/user_model.dart';
-import 'package:matrimony_flutter/Userform/Submit_Pages/gender.dart';
+import 'package:matrimony_flutter/Update/Submit_Pages/gender.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
