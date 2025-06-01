@@ -17,6 +17,9 @@ class _WidgetTreeState extends State<WidgetTree> {
     return StreamBuilder(
       stream: Auth().authStateChanges,
       builder: (context, snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return AnimatedLoader();
+        } 
         if (snapshot.hasData) {
           if (snapshot.data!.emailVerified) {
             String email = snapshot.data!.email ?? '';
@@ -40,7 +43,7 @@ class _WidgetTreeState extends State<WidgetTree> {
             return VerifyEmailAddress();
           }
         } else {
-          return LaunchPage();
+          return WidgetTree();
         }
       },
     );

@@ -135,7 +135,7 @@ class _NameProfilephotoState extends State<Gender> {
 
                     UserModel userModel = UserModel(GENDER:  selectedRadio==1 ? "Female":"Male");
                     UserOperations userOperations = UserOperations();
-                    userOperations.updateUserByEmail(email: prefs.getString("email").toString(), updatedData: userModel.toJson());
+                    userOperations.updateUserByEmail(email: Auth().currentUser!.email.toString(), updatedData: userModel.toJson());
 
                                           Get.to(City(),transition: Transition.fade);
 

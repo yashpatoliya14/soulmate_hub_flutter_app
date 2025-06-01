@@ -43,7 +43,7 @@ Widget isSearchBarHide(widget,context,changeStateOfSearchBar,onChangeSearchData)
                 ),
               ),
               onChanged: (value) {
-                String searchData = value.toLowerCase();
+                String searchData = value.toLowerCase().trim();
                 onChangeSearchData(searchData);
               },
             ),

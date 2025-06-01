@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:matrimony_flutter/Home/favorite_list/favoritelist_provider.dart';
 import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 import 'package:matrimony_flutter/Home/user_list/user_model.dart';
@@ -11,9 +10,8 @@ import '../appbar/search_bar.dart';
 
 class GetListItem extends StatefulWidget {
   final int index;
-  final List<Map<String, dynamic>> searchList;
 
-  const GetListItem({Key? key, required this.index, required this.searchList})
+  const GetListItem({Key? key, required this.index})
     : super(key: key);
 
   //methods
@@ -29,7 +27,7 @@ class _GetListItemState extends State<GetListItem> {
     final int index = widget.index;
     final provider = Provider.of<UserListProvider>(context);
     final List<Map<String, dynamic>> userList = provider.userList;
-    final List<Map<String, dynamic>> searchList = widget.searchList;
+    final List<Map<String, dynamic>> searchList = provider.searchList;
     final currentList = searchController.text.isEmpty ? userList : searchList;
     final providerFavoriteList = Provider.of<FavoritelistProvider>(
       context,
@@ -118,7 +116,7 @@ class _GetListItemState extends State<GetListItem> {
                     children: [
                       // Name
                       Text(
-                        userList[index][FULLNAME],
+                        currentList[index][FULLNAME],
                         style: TextStyle(
                           fontSize: isTablet ? 20 : 16,
                           fontWeight: FontWeight.w600,
@@ -223,7 +221,7 @@ class _GetListItemState extends State<GetListItem> {
                               );
                             },
                             icon: const Icon(Iconsax.message),
-                            label: const Text("Message"),
+                            label:  provider.userData[NOTIFICATION]?.contains(currentList[index][EMAIL]) ?? false ?  Text("Message 🟣") :Text("Message"),
                             style: TextButton.styleFrom(
                               foregroundColor: Colors.purple,
                             ),

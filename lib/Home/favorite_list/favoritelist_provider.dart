@@ -37,5 +37,11 @@ class FavoritelistProvider with ChangeNotifier {
   notifytoAllWidgets(){
     notifyListeners();
   }
+  clear(){
+    favoriteList = [];
+    favList = [];
+    fetched = false;
+    notifyListeners();
+  }
 
 }

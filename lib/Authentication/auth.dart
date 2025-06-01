@@ -1,11 +1,11 @@
-import 'dart:convert';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 import 'package:matrimony_flutter/Home/user_list/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-
+import 'package:matrimony_flutter/Home/user_list/userlist_provider.dart';
+import 'package:provider/provider.dart';
 
 class Auth{
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -22,12 +22,14 @@ class Auth{
     required String password
   })async{
     try{
-      await _firebaseAuth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword( 
           email: email,
           password: password
       );
     } on FirebaseAuthException {
       rethrow;
+    } catch(err){
+      print(":::::::${err} ::::::::on signin ");
     }
   }
   //__________________________________________
@@ -38,7 +40,8 @@ class Auth{
   Future<bool?> signUp({required String email, required String password})async{
 
     try{
-      UserModel userModel = UserModel(EMAIL:email,PASSWORD: password);
+      
+      UserModel userModel = UserModel(EMAIL:email,PASSWORD: password,NOTIFICATION: []);
       UserOperations userOperations = UserOperations();
       final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email,
@@ -57,6 +60,7 @@ class Auth{
   //__________________________________________
 
   Future<void> signOut() async {
+
     await GoogleSignIn().signOut();
     await _firebaseAuth.signOut();
   }
@@ -81,7 +85,7 @@ class Auth{
         idToken: googleAuth.idToken
     );
     await FirebaseAuth.instance.signInWithCredential(credential);
-    UserModel userModel = UserModel(EMAIL:googleUser.email,ISPROFILEDETAILS: false);
+    UserModel userModel = UserModel(EMAIL:googleUser.email,ISPROFILEDETAILS: false,NOTIFICATION: []);
     UserOperations userOperations = UserOperations();
     //create user into database
     userOperations.createUser(data: userModel);

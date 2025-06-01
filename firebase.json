@@ -1,1 +1,41 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"matrimonyflutter-36a94","appId":"1:481454817965:android:81d8b1127e13c0a606fc24","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"matrimonyflutter-36a94","configurations":{"android":"1:481454817965:android:81d8b1127e13c0a606fc24","ios":"1:481454817965:ios:61da63876db76a5f06fc24","macos":"1:481454817965:ios:61da63876db76a5f06fc24","web":"1:481454817965:web:0c905d8d1a18cac406fc24","windows":"1:481454817965:web:5def3d510bb97b4006fc24"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "matrimonyflutter-36a94",
+          "appId": "1:481454817965:android:81d8b1127e13c0a606fc24",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "matrimonyflutter-36a94",
+          "configurations": {
+            "android": "1:481454817965:android:81d8b1127e13c0a606fc24",
+            "ios": "1:481454817965:ios:61da63876db76a5f06fc24",
+            "macos": "1:481454817965:ios:61da63876db76a5f06fc24",
+            "web": "1:481454817965:web:0c905d8d1a18cac406fc24",
+            "windows": "1:481454817965:web:5def3d510bb97b4006fc24"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}

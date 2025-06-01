@@ -107,12 +107,16 @@ class _CityState extends State<City> {
                   onPressed: () async {
                     SharedPreferences prefs =
                     Get.find<SharedPreferences>();
+                    if(selectedCity!=null){
 
                     UserModel userModel = UserModel(CITY: selectedCity!);
                     UserOperations userOperations = UserOperations();
-                    userOperations.updateUserByEmail(email: prefs.getString("email").toString(), updatedData: userModel.toJson());
+                    userOperations.updateUserByEmail(email: Auth().currentUser!.email.toString(), updatedData: userModel.toJson());
 
                                           Get.to(Hobbies(),transition: Transition.fade);
+                    }else{
+                      Get.snackbar("Select Your City", "Try Again!");
+                    }
 
                   },
                 ),

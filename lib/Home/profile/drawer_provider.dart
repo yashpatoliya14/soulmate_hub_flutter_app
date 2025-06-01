@@ -22,4 +22,13 @@ class DrawerProvider with ChangeNotifier{
 
     fetched=true;
   }
+  notifytoAllWidgets(){
+    notifyListeners();
+  }
+  clear(){
+    userDetail = {};
+    fetched = false;
+    notifyListeners();
+  }
+
 }

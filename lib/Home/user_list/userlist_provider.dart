@@ -5,8 +5,9 @@ import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 
 class UserListProvider with ChangeNotifier{
   List<Map<String, dynamic>> userList = [];
+  List<Map<String, dynamic>> searchList = [];
+  Map<String,dynamic> userData = {}; 
   bool fetched = false;
-  List<String> cities = [];
 
   Future<void> getUserData({bool refresh=false}) async {
     if(fetched && refresh==false) return ;
@@ -20,14 +21,25 @@ class UserListProvider with ChangeNotifier{
 
       for (var user in allUsers) {
 
-        if (user[ISPROFILEDETAILS] == true) {
+        if (user[ISPROFILEDETAILS] == true && user[EMAIL] != currentUserEmail) {
             filteredUsers.add(user);
+        }
+        if(user[EMAIL] == currentUserEmail){
+            userData = user;
         }
       }
       
       userList = filteredUsers.reversed.toList(); // Show newest users first
       
       fetched = true;
+  }
+  notifytoAllWidgets(){
+    notifyListeners();
+  }
+  clear(){
+    userList = [];
+    fetched = false;
+    notifyListeners();
   }
 
 }

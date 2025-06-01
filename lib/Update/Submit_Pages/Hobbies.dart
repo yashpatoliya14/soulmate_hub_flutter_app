@@ -91,15 +91,20 @@ class _HobbiesState extends State<Hobbies> {
                           .where((hobby) => hobby["isChecked"])
                           .map((hobby) => hobby["name"] as String)
                           .toList();
-                  SharedPreferences prefs =
-                  Get.find<SharedPreferences>();
-                  final userEmail = prefs.getString(EMAIL).toString();
+                  final userEmail = Auth().currentUser!.email.toString();
+                  Get.offAll(
+                    CompleteProfileDetailTree(email: userEmail),
+                    transition: Transition.fade,
+                  );
                   UserModel userModel = UserModel(HOBBIES: selectedHobbies!);
                   UserOperations userOperations = UserOperations();
-                  userOperations.updateUserByEmail(email:userEmail, updatedData: userModel.toJson());
+                  
+                  userOperations.updateUserByEmail(
+                    email: userEmail,
+                    updatedData: userModel.toJson(),
+                  );
 
-                                        Get.offAll(CompleteProfileDetailTree(email: userEmail,),transition: Transition.fade);
-
+                  
                 },
               ),
             ],

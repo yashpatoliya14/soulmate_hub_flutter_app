@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
+import 'package:matrimony_flutter/Home/user_list/user_model.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 
 class ChatService {
@@ -14,56 +15,79 @@ class ChatService {
 
   /// Sends a text message to [receiverId].
   Future<void> sendMessage(String receiverId, String text) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     UserOperations userOperations = UserOperations();
-    final userData =await userOperations.getUserByEmail(email: prefs.getString(EMAIL).toString());
+    final userData = await userOperations.getUserByEmail(
+      email: Auth().currentUser!.email.toString(),
+    );
     final senderId = userData![ID];
+    //get chat id
     final chatId = getChatId(senderId, receiverId);
-    print("::::receiverID $receiverId");
-    print("::::senderID $senderId");
-    print("::::chatID $chatId");
-    print("::::chatID ${auth.currentUser!.email}");
-    await firestore
-      .collection('messages')
-      .doc(chatId)
-      .collection('chats')
-      .add({
-        'senderId': senderId,
-        'receiverId': receiverId,
-        'text': text,
-        'timestamp': FieldValue.serverTimestamp(),
-      });
+    addNotification(receiverId: receiverId, senderEmail: userData[EMAIL]);
+    await firestore.collection('messages').doc(chatId).collection('chats').add({
+      'senderId': senderId,
+      'receiverId': receiverId,
+      'text': text,
+      'timestamp': FieldValue.serverTimestamp(),
+      'isRead': false,
+    });
   }
 
-  /// Streams all messages for the chat with [receiverId], ordered by time.
+  /// Add the sender’s email to receiver’s “notification” list.
+  Future<void> addNotification({
+    required String receiverId,
+    required String senderEmail,
+  }) {
+    return firestore.collection('users').doc(receiverId).update({
+      'notification': FieldValue.arrayUnion([senderEmail]),
+    });
+  }
+
+  /// Remove the other user’s email from my “notification” list.
+  Future<void> clearNotification({
+    required String myUserId,
+    required String otherEmail,
+  }) {
+    return firestore.collection('users').doc(myUserId).update({
+      'notification': FieldValue.arrayRemove([otherEmail]),
+    });
+  }
+
+  // Streams all messages for the chat with [receiverId], ordered by time.
   Future<Stream<QuerySnapshot<Object>>>? getMessages(String receiverId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     UserOperations userOperations = UserOperations();
-    final userData =await userOperations.getUserByEmail(email: prefs.getString(EMAIL).toString());
+    final userData = await userOperations.getUserByEmail(
+      email: Auth().currentUser!.email.toString(),
+    );
+    final recieverData = await userOperations.getUserById(receiverId);
     final userId = userData![ID];
     final chatId = getChatId(userId, receiverId);
-    print("::::receiverID $receiverId");
-    print("::::userID $userId");
-    print("::::chatID $chatId");
-    print("::::chatID ${auth.currentUser!.email}");
+
+    print("done updated");
+    clearNotification(
+      myUserId: userId,
+      otherEmail:recieverData[EMAIL]
+    );
 
     return firestore
-      .collection('messages')
-      .doc(chatId)
-      .collection('chats')
-      .orderBy('timestamp', descending: true)
-      .snapshots();
+        .collection('messages')
+        .doc(chatId)
+        .collection('chats')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
   }
+
   Future<void> deleteMessages(String receiverId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     UserOperations userOperations = UserOperations();
-    final userData =await userOperations.getUserByEmail(email: prefs.getString(EMAIL).toString());
+    final userData = await userOperations.getUserByEmail(
+      email: prefs.getString(EMAIL).toString(),
+    );
     final userId = userData![ID];
     final chatId = getChatId(userId, receiverId);
     final chatRef = FirebaseFirestore.instance
-      .collection('messages')
-      .doc(chatId)
-      .collection('chats');
+        .collection('messages')
+        .doc(chatId)
+        .collection('chats');
 
     final snapshot = await chatRef.get();
 

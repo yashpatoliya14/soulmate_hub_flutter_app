@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
 class AnimatedLoader extends StatefulWidget {
   const AnimatedLoader({super.key});

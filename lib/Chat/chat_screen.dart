@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:matrimony_flutter/Home/user_list/user_controllers.dart';
 import 'package:matrimony_flutter/Chat/chat_services.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
@@ -31,10 +30,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<String> _getUserId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     UserOperations userOperations = UserOperations();
     final userData = await userOperations.getUserByEmail(
-      email: prefs.getString(EMAIL).toString(),
+      email: Auth().currentUser!.email.toString(),
     );
     return userData![ID];
   }
@@ -70,19 +68,29 @@ class _ChatScreenState extends State<ChatScreen> {
             }, icon: Icon(Iconsax.message_remove),color: Colors.redAccent,)
           ],
           ),
+        
+        
         body: Column(
           children: [
+        
             // Messages list
             Expanded(
               child: FutureBuilder<String>(
+        
                 future: _getUserId(),
+        
                 builder: (context, snapshot) {
+            
                   if (ConnectionState.waiting == snapshot.connectionState) {
                     return const Center(child: CircularProgressIndicator());
                   }
+            
                   final userId = snapshot.data;
+
+                  //call get message for sender and receiver messages
                   return FutureBuilder<Stream<QuerySnapshot>>(
                     future: _chatService.getMessages(widget.receiverId),
+                    
                     builder: (context, futureSnapshot) {
                       if (!futureSnapshot.hasData) {
                         return const Center(child: CircularProgressIndicator());
@@ -90,7 +98,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
                       // Now build StreamBuilder inside
                       return StreamBuilder<QuerySnapshot>(
+                        
                         stream: futureSnapshot.data!,
+                        
                         builder: (context, streamSnapshot) {
                           if (streamSnapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -111,7 +121,6 @@ class _ChatScreenState extends State<ChatScreen> {
                               final data =
                                   docs[index].data() as Map<String, dynamic>;
                               final isMe = data['senderId'] == userId;
-
                               return Align(
                                 alignment:
                                     isMe

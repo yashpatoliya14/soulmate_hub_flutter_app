@@ -15,7 +15,6 @@ class UserList extends StatefulWidget {
 
 class _UserListState extends State<UserList> {
   //utils
-  List<Map<String, dynamic>> searchList = [];
 
   bool _loading = false;
 
@@ -28,8 +27,9 @@ class _UserListState extends State<UserList> {
 
   void onChangeSearchData(searchData) {
     setState(() {
-      List<Map<String,dynamic>> userList = Provider.of<UserListProvider>(context,listen: false).userList;
-      searchList =
+      final provider = Provider.of<UserListProvider>(context,listen: false);
+      List<Map<String,dynamic>> userList = provider.userList;
+      provider.searchList =
           userList.where((user) {
             return user[FULLNAME].toString().toLowerCase().contains(
                   searchData,
@@ -85,13 +85,12 @@ class _UserListState extends State<UserList> {
                         itemBuilder: (BuildContext context, int index) {
                           return GetListItem(
                             index: index,
-                            searchList: searchList,
                           );
                         },
                         itemCount:
                             searchController.text.isEmpty
                                 ? provider.userList.length
-                                : searchList.length,
+                                : provider.searchList.length,
                       )
                       : LoadingWidget(),
             ),

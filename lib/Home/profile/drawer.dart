@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:matrimony_flutter/Home/favorite_list/favoritelist_provider.dart';
 import 'package:matrimony_flutter/Home/profile/drawer_provider.dart';
 import 'package:matrimony_flutter/Home/profile/profile_image.dart';
 import 'package:matrimony_flutter/Home/profile/profile_list_tile.dart';
+import 'package:matrimony_flutter/Home/user_list/userlist_provider.dart';
 import 'package:matrimony_flutter/Update/EditForm/user_form.dart';
 import 'package:matrimony_flutter/Utils/importFiles.dart';
 import 'package:matrimony_flutter/launch_page.dart';
@@ -55,6 +57,9 @@ class _GetDrawerState extends State<GetDrawer> {
   //_____________________________________________________________________
   Future<void> signOut() async {
     await Auth().signOut();
+    Provider.of<UserListProvider>(context, listen: false).clear();
+    Provider.of<FavoritelistProvider>(context, listen: false).clear();
+    Provider.of<DrawerProvider>(context, listen: false).clear();
 
     Get.offAll(LaunchPage(), transition: Transition.fade);
   }
@@ -69,11 +74,8 @@ class _GetDrawerState extends State<GetDrawer> {
   Widget build(BuildContext context) {
     //provider variable
     final provider = Provider.of<DrawerProvider>(context);
-    if (provider.userDetail == null) {
-      return const Center(child: Text("User data not available"));
-    }
-    final user = provider.userDetail;
-    if (user == null)
+    Map<String,dynamic>? user = provider.userDetail;
+    if (user == null && _loading==true)
       return const Center(child: Text("User data not available"));
 
     return Drawer(
@@ -86,7 +88,7 @@ class _GetDrawerState extends State<GetDrawer> {
                   SizedBox(
                     width: 100,
                     height: 100,
-                    child: ProfileImage(image: user[PROFILEPHOTO]),
+                    child: ProfileImage(image: user![PROFILEPHOTO]),
                   ),
 
                   SizedBox(height: 10),
@@ -155,7 +157,7 @@ class _GetDrawerState extends State<GetDrawer> {
                   SizedBox(height: 15),
                   ProfileListTile(
                     label: "Hobbies",
-                    data: user[HOBBIES].join(", "),
+                    data: user[HOBBIES].join(", ") ?? "",
                     icon: Iconsax.note_favorite,
                   ),
                   SizedBox(height: 15),

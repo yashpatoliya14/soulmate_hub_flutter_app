@@ -14,3 +14,4 @@ const String ISVERIFIED = 'isVerified';
 const String USERNAME = 'username';
 const String ISPROFILEDETAILS = 'isProfileDetails';
 const String FAVORITELIST = 'favoriteList';
+const String NOTIFICATION = 'notification';

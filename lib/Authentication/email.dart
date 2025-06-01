@@ -68,13 +68,12 @@ class _EmailState extends State<Email> {
     }
   }
 
-  void signin()  {
+  Future<void> signin()  async {
     try {
-      Auth().signIn(
+      await Auth().signIn(
         email: emailController.text,
         password: passwordController.text,
       );
-
       Get.offAll(WidgetTree(), transition: Transition.fade);
     } on FirebaseAuthException catch (e) {
       String err = '';
@@ -102,7 +101,7 @@ class _EmailState extends State<Email> {
           break;
         default:
           err = "An unknown error occurred. Please try again.";
-      }
+      } 
       Get.snackbar("Try again !", err);
     } catch (e) {
       print("Error: $e");

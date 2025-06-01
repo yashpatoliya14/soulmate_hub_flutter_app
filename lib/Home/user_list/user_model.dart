@@ -14,7 +14,9 @@ class UserModel {
   final String? USERNAME;
   final bool? ISPROFILEDETAILS;
   final List<String>? FAVORITELIST;
+  final List<String>? NOTIFICATION;
   UserModel({
+      this.NOTIFICATION,
       this.USERNAME,
       this.ISVERIFIED,
      this.FULLNAME,
@@ -47,7 +49,8 @@ class UserModel {
       if (AGE != null) 'age': AGE,
       if (PROFILEPHOTO != null) 'profilePhoto': PROFILEPHOTO,
       if (ISPROFILEDETAILS != null) 'isProfileDetails': ISPROFILEDETAILS,
-      if (FAVORITELIST !=null) 'favoriteList' : FAVORITELIST
+      if (FAVORITELIST !=null) 'favoriteList' : FAVORITELIST,
+      if (NOTIFICATION != null) 'notification' : NOTIFICATION 
     };
   }
 

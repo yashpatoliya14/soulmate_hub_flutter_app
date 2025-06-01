@@ -16,10 +16,12 @@ class _FavoritelistState extends State<Favoritelist> {
 
   //fetch favorite users
   _fetchFavorites([refresh=false]) async {
+    if (!mounted) return;
     setState(() {
       _loading = true;
     });
     await Provider.of<FavoritelistProvider>(context,listen: false).getUserData(refresh);
+    if (!mounted) return;
     setState(() {
       _loading = false;
     });

@@ -10,7 +10,7 @@ import 'package:matrimony_flutter/Update/Submit_Pages/name_profilephoto.dart';
 
 class CompleteProfileDetailTree extends StatefulWidget {
   String email;
-   CompleteProfileDetailTree({super.key,required this.email});
+  CompleteProfileDetailTree({super.key,required this.email});
 
   @override
   State<CompleteProfileDetailTree> createState() =>

@@ -18,6 +18,16 @@ class UserOperations {
     print(":::::::data add successful ::::::");
   }
 
+  getUserById(String id) async {
+    final result = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(id)
+      .get(); 
+
+      print("${result.data()} :::::: data by id ::: ");
+    return result.data();
+  }
+
   Future<void> updateUserByEmail({
     required String email,
     required Map<String, dynamic> updatedData,
@@ -30,8 +40,6 @@ class UserOperations {
     if (query.docs.isNotEmpty) {
       // Get the first matching document
       docId = query.docs.first.id;
-      print("::::::::::::$docId");
-      print("::::::::::::$updatedData");
       await FirebaseFirestore.instance
           .collection('users')
           .doc(docId)

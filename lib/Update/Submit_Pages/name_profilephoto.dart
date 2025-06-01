@@ -166,11 +166,14 @@ class _NameProfilephotoState extends State<NameProfilephoto> {
                   backgroundColor: Colors.purple,
                   icon: Icon(Iconsax.next, color: Colors.white),
                   onPressed: () async {
+                      print("called :::::::::::::::::::::::::::::");
+
                     if (_name_profile.currentState!.validate()) {
+                      print("called :::::::::::::::::::::::::::::");
                       SharedPreferences prefs = Get.find<SharedPreferences>();
                       UserModel userModel = UserModel(FULLNAME: fullnameController.text,DOB: dobController.text,PROFILEPHOTO: imgUrl );
                       UserOperations userOperations = UserOperations();
-                      userOperations.updateUserByEmail(email: prefs.getString("email").toString(), updatedData: userModel.toJson());
+                      userOperations.updateUserByEmail(email: Auth().currentUser!.email.toString(), updatedData: userModel.toJson());
                      
                       Get.to(Gender(),transition: Transition.fade);
                     }

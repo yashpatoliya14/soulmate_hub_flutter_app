@@ -36,20 +36,19 @@ dependencies:
   cupertino_icons: ^1.0.8
   carousel_slider:
   provider:
-  animated_bottom_navigation_bar:
-  animated_notch_bottom_bar:
   font_awesome_flutter:
   share_plus:
   animations:
+  firebase_messaging:
   cloud_firestore:
   image_picker:
   flutter_spinkit:
+  flutter_local_notifications:
   mime:
   path:
   intl:
   http_parser:
   permission_handler:
-  sqflite:
   shared_preferences:
   shimmer:
   http:
@@ -59,10 +58,10 @@ dependencies:
   firebase_auth:
   get:
   google_sign_in:
-  iconic: ^0.1.0
+  iconic: 
   flutter_image_compress:
   connectivity_plus: 
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
