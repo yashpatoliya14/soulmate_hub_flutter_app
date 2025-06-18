@@ -42,7 +42,7 @@
 
 ## Download now !
 
-![Download apk](https://soulmate-hub.netlify.app/)
+![Soulmate Hub]([https://soulmate-hub.netlify.app/](https://soulmate-hub.netlify.app/))
 
 ## 🙌 Contribution
 
